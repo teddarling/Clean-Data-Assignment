@@ -26,6 +26,13 @@ Before your run this analysis, please ensure that you have installed the below r
 * dplyr 
   * install.packages("dplyr")
 
+## About the Code
+
+This section will take you through how the code works.
+
+1. The first step is to ensure that the folders "test" and "train" exist. If they don't then their is no data to process and we stop with a message indicating such.
+
+
 ## Original Dataset
 The original dataset can be found at http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
 
