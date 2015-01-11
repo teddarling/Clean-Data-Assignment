@@ -1,5 +1,7 @@
 # Ignore dataset that we are working with.
 UCI HAR Dataset
+test
+train
 
 # Ignore our output data
 output
