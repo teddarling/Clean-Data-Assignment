@@ -23,6 +23,9 @@ source("path_to_unzipped_dir/run_analysis.R")
 
 Before your run this analysis, please ensure that you have installed the below required packages.
 
+* dplyr 
+  * install.packages("dplyr")
+
 ## Original Dataset
 The original dataset can be found at http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
 

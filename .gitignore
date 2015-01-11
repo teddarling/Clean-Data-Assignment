@@ -3,5 +3,8 @@ UCI HAR Dataset
 test
 train
 
+# RStudio files
+.Rapp*
+
 # Ignore our output data
 output
