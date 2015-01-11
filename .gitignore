@@ -1,2 +1,5 @@
 # Ignore dataset that we are working with.
 UCI HAR Dataset
+
+# Ignore our output data
+tidy.txt
