@@ -2,4 +2,4 @@
 UCI HAR Dataset
 
 # Ignore our output data
-tidy.txt
+output
