@@ -6,7 +6,7 @@ To get started, either clone this repo, or using the _Download Zip_ button to th
 
 ## Getting the Data for Analysis
 
-The data that this R script will analyze, can be found at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip.
+The data that this R script will analyse, can be found at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip.
 
 To get started, download the data and unzip it to a folder of your choosing.
 
@@ -16,7 +16,7 @@ To work with the dataset that you have downloaded, start your R environment and 
 
 Once you have confirmed that you have the required packages, you can use run_analysis.R script to analyse the data. To start, run:
 ```
-source("path_to_unzipped_dir/run_analyses.R")
+source("path_to_unzipped_dir/run_analysis.R")
 ```
 
 ### Required Packages
