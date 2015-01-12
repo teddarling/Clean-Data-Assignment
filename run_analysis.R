@@ -24,15 +24,30 @@ check_files <- function(){
 ## Param: folder to load all text data from. This should be relative
 ## to the current working directory. We only look at the directory
 ## passed in and don't look recursively.
-load_data <- function(){
-    ## Get the activity names
+load_data <- function(folder){
+    ## Get the activity labels
     activity_labels <- read.table("activity_labels.txt", 
                                   col.names = c("id", "activity"))
     
-    ## Get the features
+    ## Get the features. The data in this file matches the columns
+    ## of data in the folder/X_folder.txt file
     features <- read.table("features.txt",
                            col.names = c("id", "feature"))
     
-    features
+    ## Get the subject data. This will match 
+    # folder/subject_folder.txt file
+    subjects <- read.table(paste(folder,"/subject_",folder,".txt", sep = ""),
+                           col.names = c("subject"))
+    
+    ## Get the activity ids that relate to each subject
+    activities <- read.table(paste(folder,"/y_",folder,".txt", sep = ""),
+                             col.names = c("activity.id"))
+    
+    ## Get the data for each subject.
+    data <- read.table(paste(folder,"/x_",folder,".txt", sep = ""),
+                       col.names = features[,2])
+    
+    ## Bind the subject, activity and data into one data frame, then return.
+    cbind(subjects,activities,data)
     
 }

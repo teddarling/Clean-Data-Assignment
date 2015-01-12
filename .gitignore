@@ -9,6 +9,7 @@ activity_labels.txt
 
 # RStudio files
 .Rapp*
+.Rhistory
 
 # Ignore our output data
 output
