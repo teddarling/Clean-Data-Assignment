@@ -25,6 +25,8 @@ Before your run this analysis, please ensure that you have installed the below r
 
 * dplyr 
   * install.packages("dplyr")
+* data.table
+  * install.packages("data.table")
 
 ## About the Code
 

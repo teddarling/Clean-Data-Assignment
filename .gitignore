@@ -2,6 +2,10 @@
 UCI HAR Dataset
 test
 train
+features.txt
+features_info.txt
+README.txt
+activity_labels.txt
 
 # RStudio files
 .Rapp*
