@@ -34,20 +34,34 @@ load_data <- function(folder){
     features <- read.table("features.txt",
                            col.names = c("id", "feature"))
     
+    test_data <- load_folder_data("test", features[,2])
+    train_data <- load_folder_data("train", features[,2])
+    rbind(train_data, test_data)
+}
+
+
+
+load_folder_data <- function (folder, features) {
     ## Get the subject data. This will match 
     # folder/subject_folder.txt file
-    subjects <- read.table(paste(folder,"/subject_",folder,".txt", sep = ""),
-                           col.names = c("subject"))
+    subjects <- data.table(
+        read.table(
+            paste(folder,"/subject_",folder,".txt", sep = ""),
+            col.names = c("subject")))
     
     ## Get the activity ids that relate to each subject
-    activities <- read.table(paste(folder,"/y_",folder,".txt", sep = ""),
-                             col.names = c("activity.id"))
+    activities <- data.table(
+        read.table(
+            paste(folder,"/y_",folder,".txt", sep = ""),
+            col.names = c("activity.id")))
     
     ## Get the data for each subject.
-    data <- read.table(paste(folder,"/x_",folder,".txt", sep = ""),
-                       col.names = features[,2])
+    data <- data.table(
+        read.table(
+            paste(folder,"/x_",folder,".txt", sep = ""),
+            col.names = features))
     
-    ## Bind the subject, activity and data into one data frame, then return.
+    ## Bind the subject, activity and data into one data frame, 
+    ## then return as a data table
     cbind(subjects,activities,data)
-    
 }
