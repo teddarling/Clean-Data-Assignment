@@ -34,7 +34,10 @@ run_analysis <- function(){
         mutate(activity = get_activity(activity_labels, activity)) %>%
         
         ## Step 4: Appropriately labels the data set with descriptive variable names.
-	    clean_col_names()
+	    clean_col_names() %>%
+        
+        ## Save the tidy dataset
+        save_tidy_data()
     
 	
     
@@ -125,6 +128,28 @@ clean_col_names <- function(data){
                              gsub("mean", "Mean", columns))))))
     
     colnames(data) <- column_names
+    
+    data
+}
+
+#' Create tidy dataset for the assignment.
+#' 
+#' @param data, the data frame to create the files from
+#' @return the data that was passed in.
+save_tidy_data <- function(data){
+    message("Saving tidy data")
+    
+    folder <- "output"
+    
+    fileName <- paste(folder,"/smart_phone_data.txt", sep = "")
+    
+    ## See if the output directory exists, if it doesn't, create it.
+    if (!file.exists(folder)){
+        dir.create(folder)
+    }
+    
+    ## Write the tidy dataset
+    write.table(data, file = fileName, row.names = FALSE)
     
     data
 }
