@@ -31,7 +31,10 @@ run_analysis <- function(){
         
         ## Step 3: Uses descriptive activity names to name the activities in the data set
 	    rowwise() %>%
-        mutate(activity = get_activity(activity_labels, activity))
+        mutate(activity = get_activity(activity_labels, activity)) %>%
+        
+        ## Step 4: Appropriately labels the data set with descriptive variable names.
+	    clean_col_names()
     
 	
     
@@ -105,4 +108,23 @@ merge_folder <- function (folder, features) {
 #' @return string, the value of the activity, based on the id.
 get_activity <- function(labels, activity_id){
     as.character(select(filter(activity_labels, id == activity_id), activity)[1,])
+}
+
+#' Using the existin column names, make them more desctiptive and clean
+#' 
+#' @param data, The data to alter the column names of
+#' @return the data with updated column names
+clean_col_names <- function(data){
+    columns <- names(data)
+    
+    column_names <- gsub("\\.", "", 
+         gsub("fBody", "Frequency", 
+              gsub("tGravity", "Gravity",
+                   gsub("tBody", "Time",
+                        gsub("std", "Std", 
+                             gsub("mean", "Mean", columns))))))
+    
+    colnames(data) <- column_names
+    
+    data
 }
