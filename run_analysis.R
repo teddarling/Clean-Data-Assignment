@@ -2,8 +2,8 @@
 ## in the working directory.
 
 ## Require certain packages for working with data.
-require(data.table)
 require(dplyr)
+require(tidyr)
 
 ## The data is found in the test and train folders when downloaded.
 run_analysis <- function(){
@@ -24,24 +24,28 @@ run_analysis <- function(){
 	    ## Step 2: Extracts only the measurements on the mean and 
 	    ## standard deviation for each measurement. 
 	    ## NOTE: keep subject and activity ID as well.
-        select(subject, 
+	    ## 3 dots excludes Magnitude. Since magnitude isn't an actual measurement,
+        ## I am eliminating it for mean and standard deviation.
+        select(row,
+               subject, 
                activity, 
-               contains(".mean."), 
-               contains(".std.")) %>%
+               contains(".mean..."), 
+               contains(".std...")) %>%
         
         ## Step 3: Uses descriptive activity names to name the activities in the data set
 	    rowwise() %>%
-        mutate(activity = get_activity(activity_labels, activity)) %>%
+	    mutate(activity = get_activity(activity_labels, activity)) %>%
         
         ## Step 4: Appropriately labels the data set with descriptive variable names.
-	    clean_col_names() %>%
+	    clean_data() %>%
         
         ## Save the tidy dataset
-        save_tidy_data()
-    
-	
-    
-    ## Step 3: Uses descriptive activity names to name the activities in the data set
+        save_tidy_data() 
+        
+        ## Step 5: From the data set in step 4, creates a second, independent tidy data 
+        ## set with the average of each variable for each activity and each subject.
+        
+        
 }
 
 check_files <- function(){
@@ -71,7 +75,12 @@ merge_data <- function(){
     train_data <- merge_folder("train", features[,2])
     
     ## Combine the training and test data.
-    rbind(train_data, test_data)
+    data <- rbind(train_data, test_data)
+    
+    ## Add distinct row number to rows. This will help to uniquely identify observation.
+    data$row <- 1:nrow(data)
+    
+    data
 }
 
 
@@ -113,24 +122,42 @@ get_activity <- function(labels, activity_id){
     as.character(select(filter(activity_labels, id == activity_id), activity)[1,])
 }
 
+clean_data <- function(data){
+    columns <- names(data)
+    
+    column_names <- gsub("fBody", "frequency-body-", 
+         gsub("tGravity", "time-gravity-",
+              gsub("tBody", "time-body-", columns)))
+    
+    colnames(data) <- column_names
+    
+    data %>% 
+        ## Every column, except row, subject and activity, is a measurement.
+        gather(domain_signals, measurement, -c(subject, activity, row), na.rm = TRUE) %>%
+        
+        ## Next, separate the axis from the domain signal.
+        separate(domain_signals, into = c("domain_signals", "axis"), sep = "\\.{3}", extra = "merge") %>%
+        
+        ## Separate the calculation from the domain signal
+        separate(domain_signals, into = c("domain_signals", "calculation"), sep = "\\.", extra = "merge") %>%
+        
+        ## Next, spread the mean and standard deviation into their own columns
+        spread(calculation, measurement) %>% 
+        
+        ## Separate the domain from the signal.
+        separate(domain_signals, into = c("domain", "signal_sensor"), sep = "-", extra = "merge") %>%
+        
+        ## Separate the sensor from the signal.
+        separate(signal_sensor, into = c("signal", "sensor"), sep = "-", extra = "merge") %>%
+        
+        select(-row)
+}
+
 #' Using the existin column names, make them more desctiptive and clean
 #' 
 #' @param data, The data to alter the column names of
 #' @return the data with updated column names
-clean_col_names <- function(data){
-    columns <- names(data)
-    
-    column_names <- gsub("\\.", "", 
-         gsub("fBody", "Frequency", 
-              gsub("tGravity", "Gravity",
-                   gsub("tBody", "Time",
-                        gsub("std", "Std", 
-                             gsub("mean", "Mean", columns))))))
-    
-    colnames(data) <- column_names
-    
-    data
-}
+
 
 #' Create tidy dataset for the assignment.
 #' 
