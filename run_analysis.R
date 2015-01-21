@@ -20,7 +20,7 @@ run_analysis <- function(){
     
     message("Converting data")
     
-    data %>% 
+    data <- data %>% 
 	    ## Step 2: Extracts only the measurements on the mean and 
 	    ## standard deviation for each measurement. 
 	    ## NOTE: keep subject and activity ID as well.
@@ -40,12 +40,15 @@ run_analysis <- function(){
 	    clean_data() %>%
         
         ## Save the tidy dataset
-        save_tidy_data() 
+        save_tidy_data("smart_phone_data.txt") 
         
-        ## Step 5: From the data set in step 4, creates a second, independent tidy data 
-        ## set with the average of each variable for each activity and each subject.
+    ## Step 5: From the data set in step 4, creates a second, independent tidy data 
+    ## set with the average of each variable for each activity and each subject.
+    summary_data <- get_summary(data) %>%
+        save_tidy_data("smart_phone_summary.txt")
         
-        
+    ## Return the data sets
+    list(data = data, summary = summary_data)
 }
 
 check_files <- function(){
@@ -163,12 +166,12 @@ clean_data <- function(data){
 #' 
 #' @param data, the data frame to create the files from
 #' @return the data that was passed in.
-save_tidy_data <- function(data){
+save_tidy_data <- function(data, filename){
     message("Saving tidy data")
     
     folder <- "output"
     
-    fileName <- paste(folder,"/smart_phone_data.txt", sep = "")
+    fileName <- paste(folder,"/",filename, sep = "")
     
     ## See if the output directory exists, if it doesn't, create it.
     if (!file.exists(folder)){
@@ -179,4 +182,13 @@ save_tidy_data <- function(data){
     write.table(data, file = fileName, row.names = FALSE)
     
     data
+}
+
+#' Get the summary of variables for each subject and activity
+#' 
+#' @param data, The data to summarize.
+#' @return the summarized data
+get_summary <- function(data){
+    data %>% group_by(subject, activity, domain, signal, axis) %>%
+        summarize(mean = mean(mean), std = sd(std))
 }
