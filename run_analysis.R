@@ -37,18 +37,11 @@ run_analysis <- function(){
 	    mutate(activity = get_activity(activity_labels, activity)) %>%
         
         ## Step 4: Appropriately labels the data set with descriptive variable names.
-	    clean_data() %>%
-        
-        ## Save the tidy dataset
-        save_tidy_data("smart_phone_data.txt") 
+	    clean_data() 
         
     ## Step 5: From the data set in step 4, creates a second, independent tidy data 
     ## set with the average of each variable for each activity and each subject.
-    summary_data <- get_summary(data) %>%
-        save_tidy_data("smart_phone_summary.txt")
-        
-    ## Return the data sets
-    list(data = data, summary = summary_data)
+    summary_data <- get_summary(data) 
 }
 
 check_files <- function(){
