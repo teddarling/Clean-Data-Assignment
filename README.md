@@ -35,9 +35,9 @@ This section will take you through how the code works.
 1. First I check that the folders and files that should be in the working directory are there. The files that should be in the working directory can be downloaded from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip.
 
 2. Once I ensure that the files exist, I then begin to combine the files that are needed. These files are found in the folders /train and /test.
-  A. the file features.txt is read into a variable (features) so that it can be used for column names when the data from x_foldername.txt is read in. The number of rows in features.txt matches the number of columns in x_foldername.txt
-  B. inside each folder, the files foldername/x_foldername.txt, foldername/y_foldername.txt and foldername/subject_foldername.txt are combined (where foldername is either train or test).
-  C. After the data is read from each folder, the rows of each dataset are combined into a single dataset.
+  1. the file features.txt is read into a variable (features) so that it can be used for column names when the data from x_foldername.txt is read in. The number of rows in features.txt matches the number of columns in x_foldername.txt
+  2. inside each folder, the files foldername/x_foldername.txt, foldername/y_foldername.txt and foldername/subject_foldername.txt are combined (where foldername is either train or test).
+  3. After the data is read from each folder, the rows of each dataset are combined into a single dataset.
 
 
 
