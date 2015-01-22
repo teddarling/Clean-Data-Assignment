@@ -19,6 +19,11 @@ Once you have confirmed that you have the required packages, you can use run_ana
 source("path_to_unzipped_dir/run_analysis.R")
 ```
 
+Then run
+```
+run_analysis()
+```
+
 ### Required Packages
 
 Before your run this analysis, please ensure that you have installed the below required packages.
