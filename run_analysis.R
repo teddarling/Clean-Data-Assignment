@@ -182,6 +182,6 @@ save_tidy_data <- function(data, filename){
 #' @param data, The data to summarize.
 #' @return the summarized data
 get_summary <- function(data){
-    data %>% group_by(subject, activity, domain, signal, axis) %>%
+    data %>% group_by(subject, activity, domain, signal, sensor, axis) %>%
         summarize(mean = mean(mean), std = sd(std))
 }
